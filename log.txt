@@ -1,0 +1,11 @@
+How do i add styling ?
+should i use tailwind ?
+how to add custom themes?
+
+
+todo
+
+design the /new page for Reactive-Notes
+	tailwind
+making this app
+oclif push/pop app
