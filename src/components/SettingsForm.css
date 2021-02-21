@@ -1,0 +1,11 @@
+#content {
+	padding: 10px;
+	margin: 20px;
+	/* font-size: 1em; */
+}
+#step,
+label[for="step"] {
+	padding: 10px;
+	margin: 20px;
+	/* font-size: 0.5em; */
+}

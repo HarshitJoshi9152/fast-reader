@@ -9,3 +9,5 @@ design the /new page for Reactive-Notes
 	tailwind
 making this app
 oclif push/pop app
+
+remember to reset the counter when the form Content changes

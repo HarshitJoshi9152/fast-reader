@@ -1,51 +1,41 @@
 import React, { useState, useEffect } from "react";
 import Reader from "./components/Reader";
 import Header from "./components/Header";
-import ParaFocused from "./components/ParaFocused";
+// import ParaFocused from "./components/ParaFocused";
+import SettingsForm from "./components/SettingsForm";
 import "./simple.css";
 
 function App() {
 	// useState, useEffect, useRef
 
-	const [state, setState] = useState({
-		content:
-			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, quia, dolor mollitia dignissimos id atque velit, corporis suscipit vero illo voluptatibus inventore dolore? Ratione, veniam soluta non quis reprehenderit magni alias laudantium ipsa vel adipisci perferendis nesciunt corporis. Odit laborum dolorum ut temporibus iure maxime qui corrupti repellendus maiores sit.",
-		timer: 1000,
-		theme: "light",
-		wordList: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, quia, dolor mollitia dignissimos id atque velit, corporis suscipit vero illo voluptatibus inventore dolore? Ratione, veniam soluta non quis reprehenderit magni alias laudantium ipsa vel adipisci perferendis nesciunt corporis. Odit laborum dolorum ut temporibus iure maxime qui corrupti repellendus maiores sit."
-			.trim()
-			.split(" ")
-	});
-
+	const [timer, setTimer] = useState(1000);
 	const [content, setContent] = useState(
 		"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, quia, dolor mollitia dignissimos id atque velit, corporis suscipit vero illo voluptatibus inventore dolore? Ratione, veniam soluta non quis reprehenderit magni alias laudantium ipsa vel adipisci perferendis nesciunt corporis. ."
 	);
-	const [wordList, setList] = useState([content]);
+
+	const [wordList, setList] = useState("");
+	// change list on content change
 	useEffect(() => {
 		setList(content.trim().split(" "));
 	}, [content]);
-	const [timer, setTimer] = useState(state.timer);
-	const counter = useCounter(0, timer);
+
+	const [counter, resetCounter] = useCounter(0, timer);
+	console.log({
+		counter,
+		len: wordList.length,
+		modulo: counter % wordList.length
+	});
 	const currentWord = wordList[counter % wordList.length] || "finished";
+
 	return (
 		<div className="page">
 			<Header />
 			<Reader word={currentWord}></Reader>
-			<label for="step">Step: </label>
-			<input
-				type="number"
-				name="step"
-				min="300"
-				max="4000"
-				step="10"
-				onChange={(e) => setTimer(e.target.value)}
-			></input>
-			<ParaFocused />
-			<textarea
-				height="600"
-				width="800"
-				onChange={(e) => setContent(e.target.value)}
-			></textarea>
+			<SettingsForm
+				setContent={setContent}
+				setTimer={setTimer}
+				resetCounter={resetCounter}
+			></SettingsForm>
 		</div>
 	);
 }
@@ -60,7 +50,12 @@ function useCounter(start, interval) {
 		return () => clearInterval(int);
 	}, [interval]);
 
-	return val;
+	return [
+		val,
+		function resetCounter() {
+			setVal(0);
+		}
+	];
 }
 
 export default App;
