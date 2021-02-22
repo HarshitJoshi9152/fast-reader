@@ -3,59 +3,42 @@ import Reader from "./components/Reader";
 import Header from "./components/Header";
 // import ParaFocused from "./components/ParaFocused";
 import SettingsForm from "./components/SettingsForm";
-import "./simple.css";
+import useCounter from "./hooks/useCounter";
+import Advertisement from "./components/Advertisement";
+
+import "./main.css";
 
 function App() {
-	// useState, useEffect, useRef
-
 	const [timer, setTimer] = useState(1000);
 	const [content, setContent] = useState(
-		"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, quia, dolor mollitia dignissimos id atque velit, corporis suscipit vero illo voluptatibus inventore dolore? Ratione, veniam soluta non quis reprehenderit magni alias laudantium ipsa vel adipisci perferendis nesciunt corporis. ."
+		"You see, when you start writing nested stuff, not only is this difficult to code, but it also becomes very inconvenient to maintain such a codebase. JSX thus helps you bring the cleanliness of HTML to the power of JavaScript."
 	);
 
 	const [wordList, setList] = useState("");
+	const [counter, resetCounter] = useCounter(0, timer);
+
 	// change list on content change
 	useEffect(() => {
 		setList(content.trim().split(" "));
 	}, [content]);
-
-	const [counter, resetCounter] = useCounter(0, timer);
-	console.log({
-		counter,
-		len: wordList.length,
-		modulo: counter % wordList.length
-	});
-	const currentWord = wordList[counter % wordList.length] || "finished";
+	const currentWord = wordList[counter % wordList.length];
 
 	return (
-		<div className="page">
+		<>
 			<Header />
-			<Reader word={currentWord}></Reader>
-			<SettingsForm
-				setContent={setContent}
-				setTimer={setTimer}
-				resetCounter={resetCounter}
-			></SettingsForm>
-		</div>
+			<div className="page">
+				<Reader word={currentWord}></Reader>
+				<SettingsForm
+					text={content}
+					timer={timer}
+					setContent={setContent}
+					setTimer={setTimer}
+					resetCounter={resetCounter}
+				></SettingsForm>
+				<Advertisement></Advertisement>
+			</div>
+		</>
 	);
-}
-
-function useCounter(start, interval) {
-	const [val, setVal] = useState(start);
-
-	useEffect(() => {
-		const int = setInterval(() => {
-			setVal((val) => val + 1);
-		}, interval);
-		return () => clearInterval(int);
-	}, [interval]);
-
-	return [
-		val,
-		function resetCounter() {
-			setVal(0);
-		}
-	];
 }
 
 export default App;

@@ -11,3 +11,6 @@ making this app
 oclif push/pop app
 
 remember to reset the counter when the form Content changes
+
+TO READ !
+https://levelup.gitconnected.com/new-to-react-you-need-to-understand-these-key-concepts-before-anything-else-2247efc1eaac

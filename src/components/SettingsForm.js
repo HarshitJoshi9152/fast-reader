@@ -2,11 +2,16 @@ import React from "react";
 import { useForm } from "./../useForm";
 import "./SettingsForm.css";
 
-export default function SettingsForm({ setTimer, setContent, resetCounter }) {
+export default function SettingsForm({
+	timer,
+	text,
+	setTimer,
+	setContent,
+	resetCounter
+}) {
 	const [state, onChange, clearForm] = useForm({
-		step: 1000,
-		content:
-			"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, quia, dolor mollitia dignissimos id atque velit, corporis suscipit vero illo voluptatibus inventore dolore? Ratione, veniam soluta non quis reprehenderit magni alias laudantium ipsa vel adipisci perferendis nesciunt corporis."
+		step: timer,
+		content: text
 	});
 
 	const { step, content } = state;
@@ -14,16 +19,16 @@ export default function SettingsForm({ setTimer, setContent, resetCounter }) {
 	const submit = function (e) {
 		e.preventDefault();
 		const { step, content } = state;
-		console.log({ step, content });
+		if (content == null) return null;
 		setTimer(Number(step));
 		setContent(content);
 		resetCounter();
 	};
 
 	return (
-		<form>
+		<div className="sidebar-1">
 			<input
-				type="number"
+				type="range"
 				name="step"
 				id="step"
 				min="300"
@@ -32,17 +37,17 @@ export default function SettingsForm({ setTimer, setContent, resetCounter }) {
 				onChange={onChange}
 				value={step}
 			></input>
-
+			<p>{step}</p>
 			<textarea
 				name="content"
 				id="content"
-				rows="10"
-				cols="50"
+				// rows="10"
+				// cols="50"
 				onChange={onChange}
 				value={content}
 			></textarea>
 			<button onClick={submit}>Submit</button>
-		</form>
+		</div>
 	);
 }
 // left pos

@@ -1,5 +1,9 @@
 import React from "react";
 
 export default function Header() {
-	return <h1>Fast Reader ! zoooooom!!</h1>;
+	const styles = {
+		textAlign: "left",
+		"font-size": "28px"
+	};
+	return <h1 style={styles}>Fast Reader ! zoooooom!!</h1>;
 }
